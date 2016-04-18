@@ -1,0 +1,59 @@
+{
+  "name": "apidoc-cli",
+  "version": "0.1.0",
+  "description": "CLI for http://apidoc.me",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm run build && npm run build-test && npm run test-script",
+    "build": "babel src --out-dir lib",
+    "build-test": "babel test-src -d test-lib --presets movio",
+    "test-script": "mocha test-lib",
+    "watch": "nodemon --exec \"npm run test\" --watch src --watch test-src",
+    "format": "eslint --fix src test",
+    "lint": "eslint src test"
+  },
+  "babel": {
+    "presets": [
+      "movio"
+    ],
+    "plugins": []
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalmanb/apidoc-cli-node.git"
+  },
+  "keywords": [
+    "apidoc"
+  ],
+  "author": "kalmanb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalmanb/apidoc-cli-node/issues"
+  },
+  "homepage": "https://github.com/kalmanb/apidoc-cli-node#readme",
+  "bin": {
+    "apidoc": "./lib/index.js",
+    "apidoc-update": "./lib/apidoc-update.js"
+  },
+  "dependencies": {
+    "commander": "^2.9.0",
+    "lodash": "^4.7.0",
+    "properties-reader": "0.0.15",
+    "read-yaml": "^1.0.0",
+    "superagent": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-eslint": "^6.0.3",
+    "babel-preset-movio": "^1.0.2",
+    "chai": "^3.5.0",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-import": "^1.5.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^5.0.1",
+    "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
+    "superagent-mocker": "^0.4.0"
+  }
+}
