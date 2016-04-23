@@ -10,7 +10,8 @@
     "test-script": "mocha test-lib",
     "watch": "nodemon --exec \"npm run test\" --watch src --watch test-src",
     "format": "eslint --fix src test",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "check": "npm run lint && npm test"
   },
   "babel": {
     "presets": [
@@ -48,10 +49,8 @@
     "babel-preset-movio": "^1.0.2",
     "chai": "^3.5.0",
     "eslint": "^2.8.0",
-    "eslint-config-airbnb": "^7.0.0",
+    "eslint-config-airbnb-base": "^1.0.3",
     "eslint-plugin-import": "^1.5.0",
-    "eslint-plugin-jsx-a11y": "^0.6.2",
-    "eslint-plugin-react": "^5.0.1",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
     "superagent-mocker": "^0.4.0"

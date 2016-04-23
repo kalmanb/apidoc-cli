@@ -1,4 +1,10 @@
 {
-  "extends": "airbnb",
-  "parser": "babel-eslint"
+  "extends": "airbnb-base",
+  "env": {
+    "mocha": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "no-confusing-arrow": 0
+  }
 }
