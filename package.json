@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kalmanb/apidoc-cli-node.git"
+    "url": "git+https://github.com/kalmanb/apidoc-cli.git"
   },
   "keywords": [
     "apidoc"
@@ -29,9 +29,9 @@
   "author": "kalmanb",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kalmanb/apidoc-cli-node/issues"
+    "url": "https://github.com/kalmanb/apidoc-cli/issues"
   },
-  "homepage": "https://github.com/kalmanb/apidoc-cli-node#readme",
+  "homepage": "https://github.com/kalmanb/apidoc-cli#readme",
   "bin": {
     "apidoc": "./lib/index.js",
     "apidoc-update": "./lib/apidoc-update.js"
