@@ -29,38 +29,30 @@ program
 // }).parse(process.argv);
 program.parse(process.argv);
 
-console.log('ttt')
 
 exports.settings = settingsI.getSettings(program.settings);
-// exports.config = configuration.getConfig(program.config);
-
-console.log('abc')
 
 
 // console.log('Updating');
-
-// function generateCode(url, directory) {
 function generateCode(url) {
   request.get(url)
     .end((err, res) => {
-      const files = res.body.files
+      const files = res.body.files;
 
-      fp.forEach(function (file) {
-        const filename = `${file.dir}/${file.name}`
-        console.log(filename) 
-        console.log(file.contents) 
-        fs.writeFile(filename, file.contents, function(err) {
-          if(err) {
-            return console.log(err);
+      fp.forEach((file) => {
+        const filename = `${file.dir}/${file.name}`;
+        fs.writeFile(filename, file.contents, (error) => {
+          if (error) {
+            return console.log(error);
           }
-          console.log("The file was saved!");
+          return console.log('The file was saved!');
         });
-      })(files)
+      })(files);
     });
 }
 
 exports.update = function update() {
-  let config = configuration.getConfig(program.config);
+  const config = configuration.getConfig(program.config);
   fp.forEach((value, org) => {
     fp.forEach((app, appKey) => {
       fp.forEach((directory, generator) => {

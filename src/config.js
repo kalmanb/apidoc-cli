@@ -7,7 +7,7 @@ function getUserHome() {
 // Export this so we can mock it
 exports.getConfigFile = function getConfigFile(userSpecifiedConfig) {
   return userSpecifiedConfig || `${getUserHome()}/.apidoc/config`;
-}
+};
 
 exports.getConfig = function getConfig(userSpecifiedConfig) {
   const configFile = exports.getConfigFile(userSpecifiedConfig);
