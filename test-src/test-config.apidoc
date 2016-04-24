@@ -1,0 +1,3 @@
+[default]
+token = abc
+api_uri = http://localhost:9001

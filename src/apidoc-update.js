@@ -3,7 +3,7 @@
 import { default as program } from 'commander';
 import { default as request } from 'superagent';
 import { default as fp } from 'lodash/fp';
-// import fs from 'fs';
+import fs from 'fs';
 import configuration from './config';
 import settingsI from './settings';
 
@@ -29,40 +29,45 @@ program
 // }).parse(process.argv);
 program.parse(process.argv);
 
+console.log('ttt')
+
 exports.settings = settingsI.getSettings(program.settings);
-exports.config = configuration.getConfig(program.config);
+// exports.config = configuration.getConfig(program.config);
+
+console.log('abc')
+
 
 // console.log('Updating');
 
-function temp(a) { return a; }
-
 // function generateCode(url, directory) {
 function generateCode(url) {
-  // console.log(url);
-  // request.get('http://api.apidoc.me/teambytes/hipchat-sns-bridge/1.0.0/play_2_x_routes')
   request.get(url)
     .end((err, res) => {
-      temp(res);
-      // const code = res.text;
-      // console.log(code);
-      //   fp.forEach(function (file) {
-      //     console.log(file.name)
-      //   })(code.files)
+      const files = res.body.files
 
-      // console.log('Updating Complete');
+      fp.forEach(function (file) {
+        const filename = `${file.dir}/${file.name}`
+        console.log(filename) 
+        console.log(file.contents) 
+        fs.writeFile(filename, file.contents, function(err) {
+          if(err) {
+            return console.log(err);
+          }
+          console.log("The file was saved!");
+        });
+      })(files)
     });
 }
 
 exports.update = function update() {
+  let config = configuration.getConfig(program.config);
   fp.forEach((value, org) => {
     fp.forEach((app, appKey) => {
       fp.forEach((directory, generator) => {
-        const url = fp.join('/', [exports.config.api_url, org, appKey, app.version, generator]);
+        const url = fp.join('/', [config.api_uri, org, appKey, app.version, generator]);
         generateCode(url, directory);
       })(app.generators);
     })(value);
   })(exports.settings.code);
 };
-
-// var stream = fs.createWriteStream('test.scala');
 

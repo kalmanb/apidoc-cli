@@ -1,13 +1,12 @@
-
 import chai from 'chai';
 import expect from 'chai';
 import fs from 'fs';
 import { default as request } from 'superagent';
-import mocker from 'superagent-mocker';
+import sinon from 'sinon';
 
 import update from '../lib/apidoc-update';
+import config from '../lib/config';
 
-const mock = mocker(request);
 
 update.settings = {
   code: {
@@ -23,23 +22,61 @@ update.settings = {
   },
 };
 
-describe('Test Updating', () => {
-  it('aa', () => {
-    mock.get('http://api.apidoc.me/:org/:app/:version/:generator', (req) => {
-      return {
-        a: req.params.org,
-        b: req.params.app,
-        c: req.params.generator,
-        text: 'Hello World!',
-      };
+describe('Full Update', () => {
+  it('should get two different generators, one with two files', () => {
+    let getConfig = sinon.stub(config, 'getConfigFile');
+    getConfig.returns('./test-src/test-config.apidoc');
+
+    const response1 = {
+      files: [
+        {
+          name: 'TestOne.scala',
+          dir: 'com/github/one',
+          contents: "// First File\n// Yep a file",
+        },
+        {
+          name: 'TestTwo.scala',
+          dir: 'com/github/one',
+          contents: "// First Second File\n// Yep a file",
+        }
+      ]
+    };
+    const response2 = {
+      files: [
+        {
+          name: 'TestTwo.scala',
+          dir: 'com/github/two',
+          contents: "// Second File\n// Yep a file",
+        }
+      ]
+    };
+
+    const get = sinon.stub(request, 'get')
+    get.withArgs('http://localhost:9001/testOrg/testApp/1.0.0/name1').returns({
+      end: (callback) => {
+        callback(null, {ok: true, body: response1});
+      }
     });
+
+    get.withArgs('http://localhost:9001/testOrg/testApp/1.0.0/name2').returns({
+      end: (callback) => {
+        callback(null, {ok: true, body: response2});
+      }
+    });
+
+    const write = sinon.stub(fs, 'writeFile');
 
     update.update();
 
-    // TODO Mock fs
-    // const result = fs.readFile('./test/me.scala', (err, data) => {
-    //   console.log('bbb')
-    //   console.log(data)
-    // })
+    sinon.assert.calledWith(write, 'com/github/one/TestOne.scala', response1.files[0].contents);
+    sinon.assert.calledWith(write, 'com/github/one/TestTwo.scala', response1.files[1].contents);
+    sinon.assert.calledWith(write, 'com/github/two/TestTwo.scala', response2.files[0].contents);
+
+    // TODO - create directory if not there
+    // TODO - use config path as prefix with ...
+
+    getConfig.restore();
+    get.restore();
+    write.restore();
   });
 });

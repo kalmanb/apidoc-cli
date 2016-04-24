@@ -53,6 +53,6 @@
     "eslint-plugin-import": "^1.5.0",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.1",
-    "superagent-mocker": "^0.4.0"
+    "sinon": "^1.17.3"
   }
 }
