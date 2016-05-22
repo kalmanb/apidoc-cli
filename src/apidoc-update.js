@@ -1,11 +1,11 @@
 #!/usr/bin/env node --harmony
 
-import { default as program } from 'commander';
-import { default as request } from 'superagent';
-import { default as fp } from 'lodash/fp';
-import fs from 'fs';
-import configuration from './config';
-import settingsI from './settings';
+const program = require('commander');
+const request = require('superagent');
+const fp = require('./lodash');
+const fs = require('fs');
+const configuration = require('./config');
+const settingsI = require('./settings');
 
 program
   // .description('update files based on .apidoc config')
@@ -43,9 +43,9 @@ function generateCode(url) {
         const filename = `${file.dir}/${file.name}`;
         fs.writeFile(filename, file.contents, (error) => {
           if (error) {
-            return console.log(error);
+            return console.error(error);
           }
-          return console.log('The file was saved!');
+          return console.info('The file was saved!');
         });
       })(files);
     });

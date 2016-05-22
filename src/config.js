@@ -1,4 +1,4 @@
-import { default as reader } from 'properties-reader';
+const reader = require('properties-reader');
 
 function getUserHome() {
   return process.env.HOME || process.env.USERPROFILE;

@@ -1,4 +1,4 @@
-import yaml from 'read-yaml';
+const yaml = require('read-yaml');
 
 /* Example:
 {

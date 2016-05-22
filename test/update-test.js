@@ -1,12 +1,12 @@
-import chai from 'chai';
-import expect from 'chai';
-import fs from 'fs';
-import { default as request } from 'superagent';
-import sinon from 'sinon';
+// const chai = require('chai');
+// const expect = chai.expect;
 
-import update from '../lib/apidoc-update';
-import config from '../lib/config';
+const fs = require('fs');
 
+const request = require('superagent');
+const sinon = require('sinon');
+const update = require('../src/apidoc-update');
+const config = require('../src/config');
 
 update.settings = {
   code: {
@@ -24,44 +24,44 @@ update.settings = {
 
 describe('Full Update', () => {
   it('should get two different generators, one with two files', () => {
-    let getConfig = sinon.stub(config, 'getConfigFile');
-    getConfig.returns('./test-src/test-config.apidoc');
+    const getConfig = sinon.stub(config, 'getConfigFile');
+    getConfig.returns('./test/test-config.apidoc');
 
     const response1 = {
       files: [
         {
           name: 'TestOne.scala',
           dir: 'com/github/one',
-          contents: "// First File\n// Yep a file",
+          contents: '// First File\n// Yep a file',
         },
         {
           name: 'TestTwo.scala',
           dir: 'com/github/one',
-          contents: "// First Second File\n// Yep a file",
-        }
-      ]
+          contents: '// First Second File\n// Yep a file',
+        },
+      ],
     };
     const response2 = {
       files: [
         {
           name: 'TestTwo.scala',
           dir: 'com/github/two',
-          contents: "// Second File\n// Yep a file",
-        }
-      ]
+          contents: '// Second File\n// Yep a file',
+        },
+      ],
     };
 
-    const get = sinon.stub(request, 'get')
+    const get = sinon.stub(request, 'get');
     get.withArgs('http://localhost:9001/testOrg/testApp/1.0.0/name1').returns({
       end: (callback) => {
-        callback(null, {ok: true, body: response1});
-      }
+        callback(null, { ok: true, body: response1 });
+      },
     });
 
     get.withArgs('http://localhost:9001/testOrg/testApp/1.0.0/name2').returns({
       end: (callback) => {
-        callback(null, {ok: true, body: response2});
-      }
+        callback(null, { ok: true, body: response2 });
+      },
     });
 
     const write = sinon.stub(fs, 'writeFile');

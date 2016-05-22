@@ -4,10 +4,10 @@
   "description": "CLI for http://apidoc.me",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha test-lib",
-    "watch": "nodemon --exec \"npm run test\" --watch src --watch test-src",
-    "format": "eslint --fix src test",
-    "lint": "eslint src test",
+    "test": "mocha --harmony test",
+    "watch": "nodemon --exec \"npm run test\" --watch src --watch test",
+    "format": "eslint --fix src test; exit 0",
+    "lint": "eslint src test; exit 0",
     "check": "npm run lint && npm test"
   },
   "repository": {
@@ -32,9 +32,10 @@
     "lodash": "^4.12.0",
     "properties-reader": "0.0.15",
     "read-yaml": "^1.0.0",
-    "superagent": "^1.8.3"
+    "superagent": "^2.0.0-alpha.3"
   },
   "devDependencies": {
+    "babel-eslint": "^6.0.4",
     "chai": "^3.5.0",
     "eslint": "^2.10.2",
     "eslint-config-airbnb-base": "^3.0.1",
